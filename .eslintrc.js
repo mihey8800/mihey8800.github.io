@@ -12,6 +12,9 @@ module.exports = {
     'prettier',
     'prettier/vue',
     'plugin:prettier/recommended',
+    "prettier/flowtype",
+    "prettier/react",
+    "prettier/standard",
     'plugin:nuxt/recommended'
   ],
   plugins: [
@@ -19,5 +22,8 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
+    "prettier/prettier": ["error", {}, {
+      "usePrettierrc": false
+    }]
   }
 }

@@ -23,11 +23,11 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['@/assets/css/main.css'],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [{ src: '@/plugins/vue-tree-navigation', ssr: false }],
   /*
    ** Nuxt.js dev-modules
    */
@@ -61,6 +61,7 @@ export default {
     /*
      ** You can extend webpack config here
      */
+    extractCSS: true,
     extend(config, ctx) {}
   }
 }
