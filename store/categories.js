@@ -20,5 +20,8 @@ export const actions = {
     return axios.get('/v1/categories/tree').then((response) => {
       commit('setCategoriesTree', response.data.categories)
     })
+  },
+  setCategories({ commit, state }, categories){
+    commit('setCategoriesTree', categories.categories)
   }
 }

@@ -1,7 +1,7 @@
 [
     {
      "id": 1,
-     "name": "Category 1",
+     "name": "Золото",
      "price_multiplier": 1000,
      "game_id": 3,
      "created_at": 1555732503,
@@ -14,13 +14,13 @@
      "multiple_sale": 1,
      "status": 1,
      "parent_id": null,
-     "is_instant_delivery": 0,
+     "is_instant_delivery": 1,
      "is_allow_multiple_offers": null,
      "isFinal": true
     },
     {
      "id": 2,
-     "name": "Category 2",
+     "name": "Рейды",
      "price_multiplier": 1000,
      "game_id": 3,
      "created_at": 1555732503,
@@ -39,7 +39,7 @@
     },
     {
      "id": 3,
-     "name": "Category 3",
+     "name": "Дазар'Алор",
      "price_multiplier": 1000,
      "game_id": 3,
      "created_at": 1555732503,
@@ -54,10 +54,10 @@
      "parent_id": null,
      "is_instant_delivery": 0,
      "is_allow_multiple_offers": null,
-     "isFinal": true,
+     "isFinal": false,
      "children":[{
         "id": 11,
-        "name": "Category 11",
+        "name": "Горнило штормов",
         "price_multiplier": 1000,
         "game_id": 3,
         "created_at": 1555732503,
@@ -75,7 +75,7 @@
         "isFinal": true
        },{
         "id": 12,
-        "name": "Category 12",
+        "name": "Серебро",
         "price_multiplier": 1000,
         "game_id": 3,
         "created_at": 1555732503,
@@ -96,7 +96,7 @@
     },
     {
      "id": 4,
-     "name": "Category 4",
+     "name": "Дерево",
      "price_multiplier": 1000,
      "game_id": 3,
      "created_at": 1555732503,
@@ -115,7 +115,7 @@
     },
     {
      "id": 5,
-     "name": "Category 5",
+     "name": "Классы",
      "price_multiplier": 1000,
      "game_id": 3,
      "created_at": 1555732503,
@@ -134,7 +134,7 @@
     },
     {
      "id": 6,
-     "name": "Category 6",
+     "name": "Гильдии",
      "price_multiplier": 1000,
      "game_id": 3,
      "created_at": 1555732503,
@@ -153,7 +153,7 @@
     },
     {
      "id": 7,
-     "name": "Category 7",
+     "name": "Вещи",
      "price_multiplier": 1000,
      "game_id": 3,
      "created_at": 1555732503,
@@ -172,7 +172,7 @@
     },
     {
      "id": 8,
-     "name": "Category 8",
+     "name": "Купоны",
      "price_multiplier": 1000,
      "game_id": 3,
      "created_at": 1555732503,
@@ -191,7 +191,7 @@
     },
     {
      "id": 9,
-     "name": "Category 9",
+     "name": "Телепорты",
      "price_multiplier": 1000,
      "game_id": 3,
      "created_at": 1555732503,
@@ -210,7 +210,7 @@
     },
     {
      "id": 10,
-     "name": "Category 10",
+     "name": "Крафт",
      "price_multiplier": 1000,
      "game_id": 3,
      "created_at": 1555732503,
