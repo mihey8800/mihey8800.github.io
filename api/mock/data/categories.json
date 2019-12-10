@@ -3,10 +3,10 @@
      "id": 1,
      "name": "Золото",
      "price_multiplier": 1000,
-     "game_id": 3,
+     "game_id": 2,
      "created_at": 1555732503,
      "updated_at": 1555732503,
-     "sort": 5,
+     "sort": 2,
      "commission": 3,
      "show_price": 1,
      "show_count": 1,
@@ -16,7 +16,8 @@
      "parent_id": null,
      "is_instant_delivery": 1,
      "is_allow_multiple_offers": null,
-     "isFinal": true
+     "isFinal": true,
+     "children":[]
     },
     {
      "id": 2,
@@ -25,7 +26,7 @@
      "game_id": 3,
      "created_at": 1555732503,
      "updated_at": 1555732503,
-     "sort": 5,
+     "sort": 1,
      "commission": 3,
      "show_price": 1,
      "show_count": 1,
@@ -35,7 +36,8 @@
      "parent_id": null,
      "is_instant_delivery": 0,
      "is_allow_multiple_offers": null,
-     "isFinal": true
+     "isFinal": true,
+     "children":[]
     },
     {
      "id": 3,
@@ -44,7 +46,7 @@
      "game_id": 3,
      "created_at": 1555732503,
      "updated_at": 1555732503,
-     "sort": 5,
+     "sort": 3,
      "commission": 3,
      "show_price": 1,
      "show_count": 1,
@@ -62,7 +64,7 @@
         "game_id": 3,
         "created_at": 1555732503,
         "updated_at": 1555732503,
-        "sort": 5,
+        "sort": 1,
         "commission": 3,
         "show_price": 1,
         "show_count": 1,
@@ -72,7 +74,8 @@
         "parent_id": 3,
         "is_instant_delivery": 0,
         "is_allow_multiple_offers": null,
-        "isFinal": true
+        "isFinal": true,
+        "children":[]
        },{
         "id": 12,
         "name": "Серебро",
@@ -80,7 +83,7 @@
         "game_id": 3,
         "created_at": 1555732503,
         "updated_at": 1555732503,
-        "sort": 5,
+        "sort": 2,
         "commission": 3,
         "show_price": 1,
         "show_count": 1,
@@ -90,7 +93,8 @@
         "parent_id": 3,
         "is_instant_delivery": 0,
         "is_allow_multiple_offers": null,
-        "isFinal": true
+        "isFinal": true,
+        "children":[]
        }
     ]
     },
@@ -101,7 +105,7 @@
      "game_id": 3,
      "created_at": 1555732503,
      "updated_at": 1555732503,
-     "sort": 5,
+     "sort": 4,
      "commission": 3,
      "show_price": 1,
      "show_count": 1,
@@ -111,7 +115,8 @@
      "parent_id": null,
      "is_instant_delivery": 0,
      "is_allow_multiple_offers": null,
-     "isFinal": true
+     "isFinal": true,
+     "children":[]
     },
     {
      "id": 5,
@@ -130,7 +135,8 @@
      "parent_id": null,
      "is_instant_delivery": 0,
      "is_allow_multiple_offers": null,
-     "isFinal": true
+     "isFinal": true,
+     "children":[]
     },
     {
      "id": 6,
@@ -139,7 +145,7 @@
      "game_id": 3,
      "created_at": 1555732503,
      "updated_at": 1555732503,
-     "sort": 5,
+     "sort": 6,
      "commission": 3,
      "show_price": 1,
      "show_count": 1,
@@ -149,7 +155,8 @@
      "parent_id": null,
      "is_instant_delivery": 0,
      "is_allow_multiple_offers": null,
-     "isFinal": true
+     "isFinal": true,
+     "children":[]
     },
     {
      "id": 7,
@@ -158,7 +165,7 @@
      "game_id": 3,
      "created_at": 1555732503,
      "updated_at": 1555732503,
-     "sort": 5,
+     "sort": 7,
      "commission": 3,
      "show_price": 1,
      "show_count": 1,
@@ -168,7 +175,8 @@
      "parent_id": null,
      "is_instant_delivery": 0,
      "is_allow_multiple_offers": null,
-     "isFinal": true
+     "isFinal": true,
+     "children":[]
     },
     {
      "id": 8,
@@ -177,7 +185,7 @@
      "game_id": 3,
      "created_at": 1555732503,
      "updated_at": 1555732503,
-     "sort": 5,
+     "sort": 8,
      "commission": 3,
      "show_price": 1,
      "show_count": 1,
@@ -187,7 +195,8 @@
      "parent_id": null,
      "is_instant_delivery": 0,
      "is_allow_multiple_offers": null,
-     "isFinal": true
+     "isFinal": true,
+     "children":[]
     },
     {
      "id": 9,
@@ -196,7 +205,7 @@
      "game_id": 3,
      "created_at": 1555732503,
      "updated_at": 1555732503,
-     "sort": 5,
+     "sort": 9,
      "commission": 3,
      "show_price": 1,
      "show_count": 1,
@@ -206,7 +215,8 @@
      "parent_id": null,
      "is_instant_delivery": 0,
      "is_allow_multiple_offers": null,
-     "isFinal": true
+     "isFinal": true,
+     "children":[]
     },
     {
      "id": 10,
@@ -215,7 +225,7 @@
      "game_id": 3,
      "created_at": 1555732503,
      "updated_at": 1555732503,
-     "sort": 5,
+     "sort": 10,
      "commission": 3,
      "show_price": 1,
      "show_count": 1,
@@ -225,6 +235,7 @@
      "parent_id": null,
      "is_instant_delivery": 0,
      "is_allow_multiple_offers": null,
-     "isFinal": true
+     "isFinal": true,
+     "children":[]
     }
    ]

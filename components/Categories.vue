@@ -1,8 +1,8 @@
 <!-- prettier-ignore -->
 <template>
     <div>
-      <template v-for='(item,index) in newData'>
-          <drag-node :model='item' :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :defaultText='defaultText' :disableDBClick='disableDBClick' :key='index' v-slot='slotProps'>
+      <template v-for='(item) in newData'>
+          <drag-node :model='item' :allowDrag='allowDrag' :allowDrop='allowDrop' :depth='increaseDepth' :defaultText='defaultText' :disableDBClick='disableDBClick' :key='item.id' v-slot='slotProps'>
             <slot :nodeName="slotProps.nodeName" :isClicked='slotProps.isClicked'></slot>
           </drag-node>
       </template>
@@ -10,7 +10,6 @@
 </template>
 <script>
 /* eslint-disable prettier/prettier */
-import { mapMutations } from 'vuex'
 import DragNode from "./DragNode";
 
 export default {
@@ -18,9 +17,9 @@ export default {
     DragNode
   },
   props: {
-    data: {
+    data:{
       type: Array,
-      default: () => []
+      default:() =>[]
     },
     allowDrag: {
       type: Function,
@@ -45,16 +44,16 @@ export default {
   },
   watchQuery: true,
   computed: {
-    categories () {
-      this.UpdateCategories();
-      return this.$store.state.categories
-    },
     increaseDepth() {
       return this.depth + 1;
     },
     newData: {
       get() {
-        return this.data;
+        if (this.data.length === 0)
+        {
+            this.InitCategories();
+        }
+        return this.data
       },
       set(newValue) {
         const length = this.data.length;
@@ -62,17 +61,20 @@ export default {
           this.data.shift(i);
         }
         this.data = Object.assign(this.data, newValue);
-        this.$store.dispatch({type: "categories/setCategories", categories: newValue})
+        this.$store.dispatch({type: "categories/setCategories", categories: newValue })
       }
     }
   },
-  created(){
-    this.UpdateCategories();
-    this.newData = Object.assign(this.newData, this.categories.categories);
-  },
   methods: {
-    UpdateCategories(){
-        return this.$store.dispatch("categories/getCategories")
+    InitCategories(){
+         this.$store.dispatch("categories/initCategories")
+         this.newData = JSON.parse(JSON.stringify(this.$store.getters['categories/categoriesSortedGetter']));
+    },
+    setData()
+    {
+        const categories = { categories: JSON.parse(JSON.stringify(this.$store.getters['categories/categoriesSortedGetter'])) }
+        this.$set(this.data,0, categories);
+        return this.data
     },
     emitCurNodeClicked(model, component) {
       this.$emit("current-node-clicked", model, component);
@@ -95,9 +97,6 @@ export default {
     emitDrop(model, component, e) {
       this.$emit("drop", model, component, e);
     },
-    ...mapMutations({
-      getCategories: 'categories/getCategories'
-    })
   }
 }
 </script>

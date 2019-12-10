@@ -1,20 +1,13 @@
+/* eslint-disable prettier/prettier */
 const findRoot = which => {
   let ok = false;
   let that = which;
   while (!ok) {
-    if (typeof that !== "undefined") {
-      if (that.$options._componentTag === "Categories") {
-        ok = true;
-        break;
-      }
-      if (typeof that.$parent !== "undefined") {
-        that = that.$parent;
-      } else {
-        return that;
-      }
-    } else {
-      return;
+    if (that.$options._componentTag === "Categories") {
+      ok = true;
+      break;
     }
+    that = that.$parent;
   }
   return that;
 };
@@ -22,6 +15,7 @@ const findRoot = which => {
 const hasInclude = (from, to) => {
   return from.$parent._uid === to._uid;
 };
+
 
 const isLinealRelation = (from, to) => {
   let parent = from.$parent;
@@ -47,7 +41,6 @@ const isLinealRelation = (from, to) => {
 };
 
 /**
- *
  * @param rootCom
  * @param from
  * @param to
@@ -84,6 +77,7 @@ const exchangeData = (rootCom, from, to) => {
   if (isLinealRelation(from, to)) {
     const fromParentModel = from.$parent.model;
     const toModel = to.model;
+
     fromParentModel.children = fromParentModel.children.filter(
       item => item.id !== newFrom.id
     );
@@ -105,9 +99,9 @@ const exchangeData = (rootCom, from, to) => {
   }
 
   if (!toModel.children) {
-    toModel.children = [newFrom];
+    this.$store.dispatch({type: "categories/setNewChildren", category: toModel, newChildren: [newFrom]})
   } else {
-    toModel.children = toModel.children.concat([newFrom]);
+    this.$store.dispatch({type: "categories/concatChildren", category: toModel, newChildren: [newFrom]})
   }
 };
 

@@ -26,7 +26,6 @@
 
 <script>
 /* eslint-disable prettier/prettier */
-import { findRoot, exchangeData } from "@/assets/js/utils";
 let id = 1000;
 let fromData = null;
 let toData = null;
@@ -35,156 +34,254 @@ let rootTree = null;
 
 
 export default {
-  name: "DragNode",
-  props: {
-    model: {
-      type: Object,
-      default: () => {}
-    },
-    allowDrag: {
-      type: Function,
-      default: () => true
-    },
-    allowDrop: {
-      type: Function,
-      default: () => true
-    },
-    defaultText: {
-      type: String,
-      default: "New Node"
-    },
-    depth: {
-      type: Number,
-      default: 0
-    },
-    disableDBClick: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data() {
-    return {
-      open: false,
-      isClicked: false,
-      isHover: false,
-      styleObj: {
-        opacity: 1
-      }
-    };
-  },
-  computed: {
-    isShown(){
-      return this.model.status === 1
-    },
-    isFolder() {
-      return !this.model.isFinal;
-    },
-    increaseDepth() {
-      return this.depth + 1;
-    },
-    isDraggable() {
-      return this.allowDrag(this.model, this);
-    }
-  },
-  created() {
-    rootTree = findRoot(this);
-  },
-  methods: {
-    toggle() {
-      if (this.isFolder) {
-        this.open = !this.open;
-        this.model.isFinal = !this.model.isFolder
-      }
-      rootTree.emitCurNodeClicked(this.model, this);
-      this.isClicked = !this.isClicked;
-      if (nodeClicked !== this.model.id) {
-        const treeParent = rootTree.$parent;
-        let nodeStack = [treeParent.$children[0]];
-        while (nodeStack.length !== 0) {
-          const item = nodeStack.shift();
-          item.isClicked = false;
-          if (item.$children && item.$children.length > 0) {
-            nodeStack = nodeStack.concat(item.$children);
-          }
+    name: "DragNode",
+    props: {
+        model: {
+            type: Object,
+            default: () => { }
+        },
+        allowDrag: {
+            type: Function,
+            default: () => true
+        },
+        allowDrop: {
+            type: Function,
+            default: () => true
+        },
+        defaultText: {
+            type: String,
+            default: "New Node"
+        },
+        depth: {
+            type: Number,
+            default: 0
+        },
+        disableDBClick: {
+            type: Boolean,
+            default: false
         }
-        this.isClicked = true;
-        nodeClicked = this.model.id;
-      }
     },
+    data() {
+        return {
+            open: false,
+            isClicked: false,
+            isHover: false,
+            styleObj: {
+                opacity: 1
+            }
+        };
+    },
+    computed: {
+        isShown() {
+            return this.model.status === 1
+        },
+        isFolder() {
+            return !this.model.isFinal; 
+        },
+        increaseDepth() {
+            return this.depth + 1;
+        },
+        isDraggable() {
+            return this.allowDrag(this.model, this);
+        }
+    },
+    created() {
+        rootTree = this.findRoot(this);
+    },
+    methods: {
+        toggle() {
+            if (this.isFolder) {
+                this.open = !this.open;
+            }
+            rootTree.emitCurNodeClicked(this.model, this);
+            this.isClicked = !this.isClicked;
+            if (nodeClicked !== this.model.id) {
+                const treeParent = rootTree.$parent;
+                let nodeStack = [treeParent.$children[0]];
+                while (nodeStack.length !== 0) {
+                    const item = nodeStack.shift();
+                    item.isClicked = false;
+                    if (item.$children && item.$children.length > 0) {
+                        nodeStack = nodeStack.concat(item.$children);
+                    }
+                }
+                this.isClicked = true;
+                nodeClicked = this.model.id;
+            }
+        },
 
-    changeType() {
-      if (this.disableDBClick) {
-        return;
-      }
-      if (this.currentHighlight) {
-        nodeClicked = this.model.id;
-      }
-      if (!this.isFolder) {
-        this.$set(this.model, "children", []);
-        this.addChild();
-        this.open = true;
-        this.isClicked = true;
-      }
-    },
-    mouseOver(e) {
-      this.isHover = true;
-    },
-    mouseOut(e) {
-      this.isHover = false;
-    },
-    addChild() {
-      this.model.children.push({
-        name: this.defaultText,
-        href:"#take-me-somewhere",
-        id: id++
-      });
-    },
-    removeChild(id) {
-      let parentModelChildren = this.$parent.model.children;
-      for (const index in parentModelChildren) {
-        if (parentModelChildren[index].id === id) {
-          parentModelChildren = parentModelChildren.splice(index, 1);
-          break;
+        changeType() {
+            if (this.disableDBClick) {
+                return;
+            }
+            if (this.currentHighlight) {
+                nodeClicked = this.model.id;
+            }
+            if (!this.isFolder) {
+                // this.$set(this.model, "children", []);
+                // this.addChild();
+                this.open = true;
+                this.isClicked = true;
+            }
+        },
+        mouseOver(e) {
+            this.isHover = true;
+        },
+        mouseOut(e) {
+            this.isHover = false;
+        },
+        addChild() {
+            this.model.children.push({
+                name: this.defaultText,
+                href: "#take-me-somewhere",
+                id: id++
+            });
+        },
+        removeChild(id) {
+            let parentModelChildren = this.$parent.model.children;
+            for (const index in parentModelChildren) {
+                if (parentModelChildren[index].id === id) {
+                    parentModelChildren = parentModelChildren.splice(index, 1);
+                    break;
+                }
+            }
+        },
+        drag(e) {
+            fromData = this;
+            rootTree.emitDrag(this.model, this, e);
+        },
+        dragStart(e) {
+            e.dataTransfer.effectAllowed = "move";
+            e.dataTransfer.setData("text/plain", "asdad");
+            return true;
+        },
+        dragOver(e) {
+            e.preventDefault();
+            rootTree.emitDragOver(this.model, this, e);
+            return true;
+        },
+        dragEnter(e) {
+            if (this._uid !== fromData._uid) {
+                this.styleObj.opacity = 0.5;
+            }
+            rootTree.emitDragEnter(this.model, this, e);
+        },
+        dragLeave(e) {
+            this.styleObj.opacity = 1;
+            rootTree.emitDragLeave(this.model, this, e);
+        },
+        drop(e) {
+            e.preventDefault();
+            this.styleObj.opacity = 1;
+            if (!this.allowDrop(this.model, this)) {
+                return;
+            }
+            toData = this;
+            this.exchangeData(rootTree, fromData, toData);
+            rootTree.emitDrop(this.model, this, e);
+        },
+        dragEnd(e) {
+            rootTree.emitDragEnd(this.model, this, e);
+        },
+        findRoot(which) {
+            let ok = false;
+            let that = which;
+            while (!ok) {
+                if (that.$options._componentTag === "Categories") {
+                    ok = true;
+                    break;
+                }
+                that = that.$parent;
+            }
+            return that;
+
+        },
+        hasInclude(from, to) {
+            return from.$parent._uid === to._uid;
+        },
+        isLinealRelation(from, to) {
+            let parent = from.$parent;
+            let ok = false;
+            let status = false;
+            while (!ok) {
+                if (parent._uid === to._uid) {
+                    ok = true;
+                    status = true;
+                    continue;
+                }
+                if (
+                    !parent.$options._componentTag ||
+                    parent.$options._componentTag === "Categories"
+                ) {
+                    ok = true;
+                    break;
+                }
+                parent = parent.$parent;
+            }
+
+            return status;
+        },
+        exchangeData(rootCom, from, to) {
+            if (from._uid === to._uid) {
+                return;
+            }
+
+            if (this.hasInclude(to, from)) {
+                return;
+            }
+
+            const newFrom = Object.assign({}, from.model);
+
+            if (this.hasInclude(from, to)) {
+                const tempParent = to.$parent;
+                const toModel = to.model;
+
+                if (tempParent.$options._componentTag === "Categories") {
+                    tempParent.newData.push(newFrom);
+                    toModel.children = toModel.children.filter(
+                        item => item.id !== newFrom.id
+                    );
+                    return;
+                }
+
+                const toParentModel = tempParent.model;
+                toModel.children = toModel.children.filter(item => item.id !== newFrom.id);
+                toParentModel.children = toParentModel.children.concat([newFrom]);
+                return;
+            }
+
+            if (this.isLinealRelation(from, to)) {
+                const fromParentModel = from.$parent.model;
+                const toModel = to.model;
+
+                fromParentModel.children = fromParentModel.children.filter(
+                    item => item.id !== newFrom.id
+                );
+
+                toModel.children = toModel.children.concat([newFrom]);
+                return;
+            }
+
+            const fromParentModel = from.$parent.model;
+            const toModel = to.model;
+            if (from.$parent.$options._componentTag === "Categories") {
+              from.$parent.newData = from.$parent.newData.filter(
+                item => item.id !== newFrom.id
+              )
+            } else {
+              this.$store.dispatch({ type: "categories/setNewChildren", category: fromParentModel, newChildren: fromParentModel.children.filter(
+                    item => item.id !== newFrom.id
+                ) })
+            }
+
+            if (!toModel.children) {
+                this.$store.dispatch({ type: "categories/setNewChildren", category: toModel, newChildren: [newFrom] })
+            } else {
+                this.$store.dispatch({ type: "categories/concatChildren", category: toModel, newChildren: [newFrom] })
+            }
+
         }
-      }
-    },
-    drag(e) {
-      fromData = this;
-      rootTree.emitDrag(this.model, this, e);
-    },
-    dragStart(e) {
-      e.dataTransfer.effectAllowed = "move";
-      e.dataTransfer.setData("text/plain", "asdad");
-      return true;
-    },
-    dragOver(e) {
-      e.preventDefault();
-      rootTree.emitDragOver(this.model, this, e);
-      return true;
-    },
-    dragEnter(e) {
-      if (this._uid !== fromData._uid) {
-        this.styleObj.opacity = 0.5;
-      }
-      rootTree.emitDragEnter(this.model, this, e);
-    },
-    dragLeave(e) {
-      this.styleObj.opacity = 1;
-      rootTree.emitDragLeave(this.model, this, e);
-    },
-    drop(e) {
-      e.preventDefault();
-      this.styleObj.opacity = 1;
-      if (!this.allowDrop(this.model, this)) {
-        return;
-      }
-      toData = this;
-      exchangeData(rootTree, fromData, toData);
-      rootTree.emitDrop(this.model, this, e);
-    },
-    dragEnd(e) {
-      rootTree.emitDragEnd(this.model, this, e);
+
     }
-  }
 };
 </script>
