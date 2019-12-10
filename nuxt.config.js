@@ -25,10 +25,6 @@ export default {
    */
   css: ['@/assets/css/main.css'],
   /*
-   ** Plugins to load before mounting the App
-   */
-  plugins: [{ src: '@/plugins/vue-tree-navigation', ssr: false }],
-  /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
