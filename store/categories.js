@@ -1,8 +1,9 @@
+/* eslint-disable import/first */
 /* eslint-disable prefer-const */
 /* eslint-disable prettier/prettier */
+import MockAdapter from 'axios-mock-adapter'
 import categoriesJson from '@/api/mock/data/categories.json'
 const axios = require('axios');
-const MockAdapter = require('axios-mock-adapter');
 export const state = () => ({
   categories: []
 })
