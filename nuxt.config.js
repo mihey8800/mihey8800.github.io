@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 export default {
   mode: 'universal',
   /*
@@ -48,6 +49,9 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {},
+  router: {
+    base: '/vuenuxt/'
+  },
   /*
    ** Build configuration
    */
@@ -57,5 +61,6 @@ export default {
      */
     extractCSS: true,
     extend(config, ctx) {}
-  }
+  }, 
+  
 }
