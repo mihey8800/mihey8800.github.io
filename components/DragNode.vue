@@ -238,15 +238,16 @@ export default {
 
                 if (tempParent.$options._componentTag === "Categories") {
                     tempParent.newData.push(newFrom);
-                    toModel.children = toModel.children.filter(
+                    const newChildren = toModel.children.filter(
                         item => item.id !== newFrom.id
                     );
+                    this.$store.dispatch({ type: "categories/setNewChildren", category: toModel, newChildren: newChildren })
                     return;
                 }
 
                 const toParentModel = tempParent.model;
-                toModel.children = toModel.children.filter(item => item.id !== newFrom.id);
-                toParentModel.children = toParentModel.children.concat([newFrom]);
+                const newChildren = toModel.children.filter(item => item.id !== newFrom.id);
+                this.$store.dispatch({ type: "categories/concatChildren", category: toParentModel, newChildren: newChildren })
                 return;
             }
 
@@ -254,11 +255,12 @@ export default {
                 const fromParentModel = from.$parent.model;
                 const toModel = to.model;
 
-                fromParentModel.children = fromParentModel.children.filter(
+                const newChildren = fromParentModel.children.filter(
                     item => item.id !== newFrom.id
                 );
 
-                toModel.children = toModel.children.concat([newFrom]);
+                this.$store.dispatch({ type: "categories/concatChildren", category: fromParentModel, newChildren: newChildren })
+
                 return;
             }
 
