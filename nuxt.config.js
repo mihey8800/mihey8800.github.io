@@ -1,4 +1,9 @@
 /* eslint-disable prettier/prettier */
+const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
+  router: {
+    base: '/vuenuxt/'
+  }
+} : {}
 export default {
   mode: 'universal',
   /*
@@ -49,9 +54,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {},
-  router: {
-    base: '/vuenuxt/'
-  },
+  ...routerBase,
   /*
    ** Build configuration
    */
@@ -64,3 +67,5 @@ export default {
   }, 
   
 }
+
+
