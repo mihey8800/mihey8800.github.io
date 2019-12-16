@@ -7,5 +7,7 @@ ADD . ${APP_ROOT}
 
 RUN npm ci
 RUN npm run build
+RUN npm generate
+RUN npm deploy
 
 CMD ["npm", "run", "start"]
