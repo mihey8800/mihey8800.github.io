@@ -50,9 +50,6 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {},
-  router: {
-    base: '/vuenuxt/'
-  },
   /*
    ** Build configuration
    */

@@ -21,7 +21,7 @@
     "test:e2e": "cross-env TEST=e2e ava --config e2e.config.js",
     "build:gh-pages": "cross-env DEPLOY_ENV=GH_PAGES nuxt build",
     "generate:gh-pages": "cross-env DEPLOY_ENV=GH_PAGES nuxt generate",
-    "deploy": "gh-pages -d dist"
+    "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "lint-staged": {
     "*.{js,vue}": "eslint"
@@ -40,7 +40,7 @@
     "bootstrap-vue": "^2.0.0",
     "eslint-loader": "^3.0.2",
     "nuxt": "^2.0.0",
-    "vue-moment": "^4.0.0",
+    "vue-moment": "^4.1.0",
     "vue-tree-navigation": "^4.0.1",
     "vuex": "^3.1.2"
   },
