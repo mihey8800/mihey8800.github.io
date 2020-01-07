@@ -50,6 +50,16 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {},
+  workbox: {
+    runtimeCaching: [
+      {
+        urlPattern: 'https://cdn.jsdelivr.net/.*',
+        handler: 'cacheFirst',
+        method: 'GET',
+        strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+      }
+    ]
+  },
   /*
    ** Build configuration
    */
