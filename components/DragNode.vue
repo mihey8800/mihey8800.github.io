@@ -1,6 +1,6 @@
 <!-- prettier-ignore -->
 <template>
-  <div v-if='isShown' :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container'>
+  <div :style='styleObj' :draggable='isDraggable' @drag.stop='drag' @dragstart.stop='dragStart' @dragover.stop='dragOver' @dragenter.stop='dragEnter' @dragleave.stop='dragLeave' @drop.stop='drop' @dragend.stop='dragEnd' class='dnd-container'>
     <div @click="toggle" @mouseover='mouseOver' @mouseout='mouseOut' @dblclick="changeType">
       <div :style="{ 'padding-left': (depth - 1) * 24 + 'px' }" :id='model.id' class='treeNodeText'>
         <slot :nodeName="model.name" :isClicked='isClicked'>
@@ -8,12 +8,31 @@
             <div class="card-body">
               <h5 class="card-title">{{ model.name }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Игра: <span class="price">{{model.game_id}}</span></h6>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <p v-if="model.is_instant_delivery === 1" class="delivery" >Моментальная доставка!</p>
-                  <span v-if="isFolder" :class="[isClicked ? 'nodeClicked' : '','vue-drag-node-icon']"></span>  
+                <h6 class="card-subtitle mb-2 text-muted">Комиссия сервиса: <span class="price">{{model.commission}}</span></h6>
+                <div class="row">
+                    <div class="col">Создано: {{createdMoment}}</div>
+                    <div class="col">Обновлено: {{updatedMoment}}</div>                     
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <br>
+                        <h6 class="card-subtitle mb-2 text-muted"> Настройки</h6>
+                        <b-form-checkbox v-model="showPrice" v-bind:true-value="1" v-bind:false-value="0" switch>Показывать цену</b-form-checkbox>
+                        <b-form-checkbox v-model="showCount" v-bind:true-value="1" v-bind:false-value="0" switch>Показывать количество</b-form-checkbox>
+                        <b-form-checkbox v-model="showTime" v-bind:true-value="1" v-bind:false-value="0" switch>Показывать время</b-form-checkbox>
+                        <b-form-checkbox v-model="multipleSale" v-bind:true-value="1" v-bind:false-value="0" switch>Можно продавать несколько раз</b-form-checkbox>
+                        <b-form-checkbox v-model="status" v-bind:true-value="1" v-bind:false-value="0" switch><p v-if="model.status == 1">Видна всем</p><p v-if="model.status == 0">Не видна</p></b-form-checkbox>
+                        <b-form-checkbox v-model="instantDelivery" v-bind:true-value="1" v-bind:false-value="0" switch>Моментальная доставка</b-form-checkbox>
+                        <b-form-checkbox v-model="allowMultipleOffers" v-bind:true-value="1" v-bind:false-value="0" switch>Можно создать несколько предложений в этой категории</b-form-checkbox>
+                    </div>                   
+                </div>
+                <div class="row ">
+                    <div class="col d-flex justify-content-end">
+                        <span v-if="isFolder" :class="[isClicked ? 'nodeClicked' : '','vue-drag-node-icon']"></span>
+                    </div>
+                </div>
             </div>
           </div>
-          
         </slot>
       </div>
     </div>
@@ -26,6 +45,11 @@
 
 <script>
 /* eslint-disable prettier/prettier */
+import Vue from 'vue'
+import VueMoment from 'vue-moment'
+import moment from 'moment'
+Vue.use(VueMoment, { moment })
+
 let id = 1000;
 let fromData = null;
 let toData = null;
@@ -83,7 +107,69 @@ export default {
         },
         isDraggable() {
             return this.allowDrag(this.model, this);
-        }
+        },
+        createdMoment(){
+            return moment(this.model.created_at).format('DD.MM.YYYY');
+        },
+        updatedMoment(){
+            return moment(this.model.updated_at).format('DD.MM.YYYY');
+        },
+        showPrice:{
+            get() {
+                return this.model.show_price === 1
+            },
+            set(newValue){
+                this.model.show_price = newValue
+            }
+        },
+        showCount:{
+            get() {
+                return this.model.show_count === 1
+            },
+            set(newValue){
+                this.model.show_count = newValue
+            }
+        },
+        showTime:{
+            get() {
+                return this.model.show_time === 1
+            },
+            set(newValue){
+                this.model.show_time = newValue
+            }
+        },
+        multipleSale:{
+            get() {
+                return this.model.multiple_sale === 1
+            },
+            set(newValue){
+                this.model.multiple_sale = newValue
+            }
+        },
+        status:{
+            get() {
+                return this.model.status === 1
+            },
+            set(newValue){
+                this.model.status = newValue
+            }
+        },
+        instantDelivery:{
+            get() {
+                return this.model.is_instant_delivery === 1
+            },
+            set(newValue){
+                this.model.is_instant_delivery = newValue
+            }
+        },
+        allowMultipleOffers:{
+            get() {
+                return this.model.is_allow_multiple_offers === 1
+            },
+            set(newValue){
+                this.model.is_allow_multiple_offers = newValue
+            }
+        },
     },
     created() {
         rootTree = this.findRoot(this);
@@ -241,25 +327,26 @@ export default {
                     const newChildren = toModel.children.filter(
                         item => item.id !== newFrom.id
                     );
-                    this.$store.dispatch({ type: "categories/setNewChildren", category: toModel, newChildren: newChildren })
+                    this.$store.dispatch({ type: "categories/setNewChildren", category: toModel, newChildren })
                     return;
                 }
 
                 const toParentModel = tempParent.model;
                 const newChildren = toModel.children.filter(item => item.id !== newFrom.id);
-                this.$store.dispatch({ type: "categories/concatChildren", category: toParentModel, newChildren: newChildren })
+                this.$store.dispatch({ type: "categories/concatChildren", category: toParentModel, newChildren })
                 return;
             }
 
             if (this.isLinealRelation(from, to)) {
                 const fromParentModel = from.$parent.model;
+                // eslint-disable-next-line no-unused-vars
                 const toModel = to.model;
 
                 const newChildren = fromParentModel.children.filter(
                     item => item.id !== newFrom.id
                 );
 
-                this.$store.dispatch({ type: "categories/concatChildren", category: fromParentModel, newChildren: newChildren })
+                this.$store.dispatch({ type: "categories/concatChildren", category: fromParentModel, newChildren })
 
                 return;
             }

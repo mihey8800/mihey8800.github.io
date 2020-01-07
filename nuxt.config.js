@@ -1,9 +1,4 @@
 /* eslint-disable prettier/prettier */
-const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
-  router: {
-    base: '/vuenuxt/'
-  }
-} : {}
 export default {
   mode: 'universal',
   /*
@@ -22,6 +17,7 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
+  
   /*
    ** Customize the progress-bar color
    */
@@ -54,7 +50,9 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {},
-  ...routerBase,
+  router: {
+    base: '/vuenuxt/'
+  },
   /*
    ** Build configuration
    */
