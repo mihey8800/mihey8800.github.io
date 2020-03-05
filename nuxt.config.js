@@ -67,6 +67,7 @@ export default {
     /*
      ** You can extend webpack config here
      */
+    vendor: ['sortablejs'],
     extractCSS: true,
     extend(config, ctx) {}
   }, 
